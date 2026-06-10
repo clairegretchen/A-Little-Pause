@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Pause | Teh Herbal & Aromaterapi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #F3EDE8;
+            color: #3D2E22;
+            line-height: 1.5;
+        }
+
+        .top-nav {
+            background: #FFFFFF;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #E5D9D0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-link {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6B4F3A;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #F0E6DF;
+        }
+
+        .nav-link.active {
+            background: #DCC9BB;
+            color: #3D2E22;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.show {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #4A3525;
+            border-left: 4px solid #C7A58B;
+            padding-left: 1rem;
+            margin: 1.5rem 0 1.2rem 0;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 1.3rem;
+            border: 1px solid #E5D9D0;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            color: #4A3525;
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .card .sub {
+            color: #A88265;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .flavor-box {
+            background: #F9F4EF;
+            border-radius: 16px;
+            padding: 0.6rem 0.8rem;
+            margin: 0.8rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .flavor-tag {
+            background: #E8DDD2;
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .flavor-tag.sweet { background: #E8D5C4; color: #8B5E3C; }
+        .flavor-tag.sour { background: #E8D5C4; color: #B87C5A; }
+        .flavor-tag.bitter { background: #D9CABE; color: #6B4F3A; }
+        .flavor-tag.fresh { background: #C8E0D0; color: #4A6B5A; }
+        .flavor-tag.floral { background: #E0D0D8; color: #8B5E7A; }
+
+        .aroma-box {
+            margin: 0.5rem 0;
+            font-size: 0.85rem;
+            color: #8C6A4F;
+            font-style: italic;
+        }
+
+        .brewing-box {
+            background: #F0E9E2;
+            border-radius: 16px;
+            padding: 0.6rem 0.8rem;
+            margin: 0.8rem 0;
+            font-size: 0.8rem;
+        }
+
+        .brewing-box strong {
+            color: #4A3525;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            color: #5C4533;
+            margin: 0.5rem 0;
+        }
+
+        .badge {
+            background: #F0E6DF;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #8C6A4F;
+            margin-top: 0.5rem;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #4A3525;
+        }
+
+        .hero {
+            background: #FEFAF7;
+            border-radius: 28px;
+            padding: 1.8rem;
+            text-align: center;
+            border: 1px solid #E5D9D0;
+            margin: 1rem 0;
+        }
+
+        .hero-quote {
+            font-style: italic;
+            color: #A88265;
+            margin-top: 0.8rem;
+        }
+
+        .daily-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .daily-card {
+            flex: 1;
+            background: white;
+            border-radius: 24px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #E5D9D0;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .tip-box {
+            background: white;
+            border-radius: 20px;
+            padding: 1rem;
+            border: 1px solid #E5D9D0;
+        }
+
+        .tip-box h4 {
+            color: #4A3525;
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid #F0E6DF;
+            display: inline-block;
+        }
+
+        .tip-box ul {
+            margin-left: 1.2rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #5C4533;
+        }
+
+        .feelings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+
+        .feeling-btn {
+            background: #F0E6DF;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .feeling-btn:hover {
+            background: #E0D0C4;
+        }
+
+        .ask-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+
+        .ask-box input {
+            flex: 3;
+            padding: 0.8rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #DCC9BB;
+            font-size: 0.9rem;
+            background: white;
+        }
+
+        .ask-box button {
+            background: #DCC9BB;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .ai-response {
+            background: #FEFAF7;
+            border-radius: 24px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid #C7A58B;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding: 1rem 0;
+            font-size: 0.7rem;
+            color: #A88265;
+            border-top: 1px solid #E5D9D0;
+        }
+
+        @media (max-width: 700px) {
+            .container { padding: 1rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+    <button class="nav-link active" data-page="home">Home</button>
+    <button class="nav-link" data-page="tea">Tea Collection</button>
+    <button class="nav-link" data-page="pocket">Calming Pocket</button>
+    <button class="nav-link" data-page="tips">Wellness Tips</button>
+    <button class="nav-link" data-page="ask">Ask AI</button>
+</div>
+
+<div class="container">
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page show">
+        <div class="welcome">
+            <h1>A Little Pause</h1>
+            <p>take a little pause, feel a little better.</p>
+        </div>
+        <div class="hero">
+            <p>A Little Pause adalah teman kecil untuk membantu kamu beristirahat sejenak dari kesibukan dan dunia digital. Melalui kombinasi website edukatif, teh herbal, dan calming pocket aromaterapi, A Little Pause membantu kamu lebih rileks, fokus, dan membangun kebiasaan tidur yang lebih sehat.</p>
+            <p class="hero-quote">Karena terkadang, yang kita butuhkan hanyalah jeda kecil untuk kembali merasa lebih baik.</p>
+        </div>
+        <div class="daily-box">
+            <div class="daily-card">
+                <strong>tea of the day</strong>
+                <div style="font-size:1.2rem; font-weight:600; margin:0.3rem 0" id="homeTea">Calm Mind</div>
+                <span class="badge" id="homeTeaTag">untuk relaksasi</span>
+            </div>
+            <div class="daily-card">
+                <strong>pocket pick</strong>
+                <div style="font-size:1.2rem; font-weight:600; margin:0.3rem 0" id="homePocket">Sleep Pocket</div>
+                <span class="badge" id="homePocketTag">untuk tidur nyenyak</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEA PAGE -->
+    <div id="page-tea" class="page">
+        <div class="section-title">Koleksi Teh Herbal</div>
+        <div class="card-grid" id="teaList"></div>
+    </div>
+
+    <!-- POCKET PAGE -->
+    <div id="page-pocket" class="page">
+        <div class="section-title">Koleksi Calming Pocket</div>
+        <div class="card-grid" id="pocketList"></div>
+    </div>
+
+    <!-- WELLNESS TIPS PAGE -->
+    <div id="page-tips" class="page">
+        <div class="section-title">Tips Pola Hidup Sehat & Tidur</div>
+        <div class="tips-grid" id="tipsList"></div>
+    </div>
+
+    <!-- ASK AI PAGE -->
+    <div id="page-ask" class="page">
+        <div class="section-title">Tanya AI · Dapatkan Rekomendasi</div>
+        <p>Ceritakan apa yang kamu rasakan — lelah, overthinking, susah fokus, scrolling berjam-jam.</p>
+        
+        <div class="feelings" id="feelingContainer"></div>
+        
+        <div class="ask-box">
+            <input type="text" id="askInput" placeholder="Contoh: Saya tidak bisa tidur, kenapa?">
+            <button id="askBtn">Tanya AI</button>
+        </div>
+        
+        <div class="ai-response" id="aiAnswer">
+            Pilih emosi atau tulis pertanyaanmu.
+        </div>
+        
+        <details style="margin-top: 0.8rem;">
+            <summary style="cursor:pointer; color:#8C6A4F;">Contoh pertanyaan</summary>
+            <p style="margin-top:0.5rem; font-size:0.8rem;">- Saya scrolling 3 jam, kenapa tidak bisa tidur?<br>- Berapa jam tidur yang ideal?<br>- Saya sering overthinking malam hari</p>
+        </details>
+    </div>
+
+    <footer>© A Little Pause — soft companion for rest & clarity</footer>
+</div>
+
+<script>
+    // ========== DATA TEH LENGKAP DENGAN RASA DAN AROMA ==========
+    const teas = [
+        { 
+            name: "Calm Mind", 
+            ingredients: "Chamomile + Lavender", 
+            rasa: "Manis alami ringan, sedikit floral, tidak pahit", 
+            aroma: "Wangian bunga chamomile segar berpadu lavender yang lembut dan menenangkan",
+            desc: "Teh yang sempurna untuk menenangkan pikiran setelah hari yang melelahkan. Rasa manis alami dari chamomile memberikan sensasi hangat dan nyaman.",
+            suitable: "overthinking, kecemasan ringan, relaksasi malam",
+            flavor: ["manis alami", "floral lembut"],
+            brewing: "Seduh dengan air 85-90°C selama 5-7 menit. Tutup cangkir agar aroma tidak hilang."
+        },
+        { 
+            name: "Deep Rest", 
+            ingredients: "Chamomile + Telang", 
+            rasa: "Ringan, netral, sedikit earthy (tanah), tidak asam", 
+            aroma: "Aroma bunga telang yang khas dengan sentuhan chamomile yang hangat",
+            desc: "Perpaduan yang cocok untuk menemani waktu istirahat. Rasanya ringan sehingga nyaman diminum pada malam hari tanpa terasa berat di lambung.",
+            suitable: "mempersiapkan tidur, relaksasi malam",
+            flavor: ["netral", "earthy lembut", "tidak asam"],
+            brewing: "Seduh dengan air 85-90°C selama 5-6 menit. Warna biru cantik dari bunga telang akan keluar."
+        },
+        { 
+            name: "Refresh Focus", 
+            ingredients: "Peppermint + Telang", 
+            rasa: "Segar, minty dominan, sedikit earthy, tidak pahit", 
+            aroma: "Aroma mint yang kuat dan menyegarkan dengan sentuhan bunga telang yang ringan",
+            desc: "Memberikan sensasi segar yang membantu menjaga fokus dan konsentrasi saat belajar atau bekerja. Cocok diminum pagi atau siang hari.",
+            suitable: "sulit fokus, kantuk saat belajar, kelelahan ringan",
+            flavor: ["mint segar", "earthy", "cooling effect"],
+            brewing: "Seduh dengan air 80-85°C selama 3-4 menit (jangan terlalu lama agar mint tidak pahit)."
+        },
+        { 
+            name: "Fresh Mood", 
+            ingredients: "Peppermint + Chamomile", 
+            rasa: "Segar mint di awal, diikuti manis floral chamomile di akhir", 
+            aroma: "Perpaduan segar mint dan manis bunga chamomile yang menenangkan",
+            desc: "Perpaduan antara kesegaran peppermint dan ketenangan chamomile menghasilkan minuman yang cocok untuk memperbaiki suasana hati.",
+            suitable: "jenuh, bosan, kelelahan mental",
+            flavor: ["mint segar", "manis floral", "seimbang"],
+            brewing: "Seduh dengan air 85°C selama 4-5 menit. Nikmati hangat untuk efek menenangkan maksimal."
+        },
+        { 
+            name: "Bloom Balance", 
+            ingredients: "Mawar + Chamomile", 
+            rasa: "Manis floral, sedikit honey-like, tidak asam, sangat lembut", 
+            aroma: "Harum bunga mawar yang elegan berpadu dengan chamomile yang hangat",
+            desc: "Memberikan pengalaman minum yang menenangkan dan nyaman. Rasa manis alami dari bunga mawar dan chamomile sangat menyenangkan.",
+            suitable: "stres, emosi tidak stabil, relaksasi",
+            flavor: ["manis alami", "floral harum", "honey note"],
+            brewing: "Seduh dengan air 85-90°C selama 5-7 menit. Tambahkan madu jika ingin lebih manis."
+        },
+        { 
+            name: "Serenity Tea", 
+            ingredients: "Mawar + Telang", 
+            rasa: "Ringan, floral, sedikit manis alami, setelahnya ada rasa earthy ringan", 
+            aroma: "Aroma bunga mawar yang menenangkan dengan sentuhan ringan bunga telang",
+            desc: "Kombinasi yang memberikan rasa tenang tanpa terlalu banyak sensasi mint atau asam. Sangat cocok untuk malam hari.",
+            suitable: "kecemasan, overthinking, relaksasi",
+            flavor: ["floral ringan", "manis natural", "earthy mild"],
+            brewing: "Seduh dengan air 85°C selama 5-6 menit. Air akan berubah warna menjadi ungu kebiruan yang cantik."
+        }
+    ];
+
+    const pockets = [
+        { name: "Sleep Pocket", ingredients: "Lavender + Chamomile", desc: "Aroma floral lembut yang membantu tubuh dan pikiran rileks sebelum tidur.", suitable: "sulit tidur, overthinking" },
+        { name: "Stress Relief Pocket", ingredients: "Lavender + Mawar", desc: "Aroma manis dan menenangkan untuk mengurangi rasa stres dan tekanan.", suitable: "stres, tekanan akademik" },
+        { name: "Focus Pocket", ingredients: "Peppermint + Telang", desc: "Aroma segar yang membantu meningkatkan kewaspadaan dan konsentrasi.", suitable: "belajar, meningkatkan fokus" },
+        { name: "Mood Booster Pocket", ingredients: "Mawar + Rosella", desc: "Aroma floral segar yang membawa suasana hati lebih ceria.", suitable: "mood buruk, kelelahan emosional" },
+        { name: "Recharge Pocket", ingredients: "Peppermint + Lavender", desc: "Perpaduan segar dan menenangkan untuk mengembalikan energi.", suitable: "kelelahan fisik dan mental" },
+        { name: "Serenity Pocket", ingredients: "Telang + Lavender", desc: "Aroma lembut dan ringan yang sangat menenangkan pikiran.", suitable: "kecemasan, kegelisahan" }
+    ];
+
+    const tipsData = [
+        { title: "Tidur Berkualitas", items: ["Tidur 7-9 jam setiap malam", "Hindari layar 1 jam sebelum tidur", "Kamar gelap, sejuk, dan sunyi", "Jam tidur konsisten"] },
+        { title: "Pola Makan", items: ["Hindari kafein setelah jam 2 siang", "Jangan makan berat sebelum tidur", "Teh herbal di malam hari"] },
+        { title: "Relaksasi", items: ["Meditasi 5-10 menit", "Tulis jurnal sebelum tidur", "Peregangan ringan", "Mandi air hangat"] },
+        { title: "Kesehatan Mental", items: ["Kurangi scrolling medsos", "Batas waktu screen time", "Self-care routine", "Praktik syukur"] }
+    ];
+
+    function renderTea() {
+        const container = document.getElementById('teaList');
+        if (!container) return;
+        
+        container.innerHTML = teas.map(t => {
+            const flavorTags = t.flavor.map(f => {
+                let colorClass = "";
+                if (f.includes("manis") || f.includes("sweet") || f.includes("honey")) colorClass = "sweet";
+                else if (f.includes("asam") || f.includes("sour")) colorClass = "sour";
+                else if (f.includes("pahit") || f.includes("bitter")) colorClass = "bitter";
+                else if (f.includes("mint") || f.includes("segar") || f.includes("cooling")) colorClass = "fresh";
+                else colorClass = "floral";
+                return `<span class="flavor-tag ${colorClass}">${f}</span>`;
+            }).join('');
+            
+            return `
+                <div class="card">
+                    <h3>${t.name}</h3>
+                    <div class="sub">${t.ingredients}</div>
+                    <div class="flavor-box">
+                        ${flavorTags}
+                    </div>
+                    <div class="aroma-box">
+                        🌸 Aroma: ${t.aroma}
+                    </div>
+                    <div class="brewing-box">
+                        <strong>🍵 Cara Seduh:</strong> ${t.brewing}
+                    </div>
+                    <p>${t.desc}</p>
+                    <div class="badge">Cocok untuk: ${t.suitable}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderPocket() {
+        const container = document.getElementById('pocketList');
+        if (!container) return;
+        container.innerHTML = pockets.map(p => `
+            <div class="card">
+                <h3>${p.name}</h3>
+                <div class="sub">${p.ingredients}</div>
+                <div class="aroma-box">🌸 ${p.desc}</div>
+                <div class="badge">Cocok untuk: ${p.suitable}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderTips() {
+        const container = document.getElementById('tipsList');
+        if (!container) return;
+        container.innerHTML = tipsData.map(t => `
+            <div class="tip-box">
+                <h4>${t.title}</h4>
+                <ul>
+                    ${t.items.map(i => `<li>${i}</li>`).join('')}
+                </ul>
+            </div>
+        `).join('');
+    }
+
+    function updateHomeRandom() {
+        const randomTea = teas[Math.floor(Math.random() * teas.length)];
+        const randomPocket = pockets[Math.floor(Math.random() * pockets.length)];
+        const homeTea = document.getElementById('homeTea');
+        const homeTeaTag = document.getElementById('homeTeaTag');
+        const homePocket = document.getElementById('homePocket');
+        const homePocketTag = document.getElementById('homePocketTag');
+        
+        if (homeTea) homeTea.innerText = randomTea.name;
+        if (homeTeaTag) homeTeaTag.innerText = `rasa: ${randomTea.rasa.substring(0,35)}`;
+        if (homePocket) homePocket.innerText = randomPocket.name;
+        if (homePocketTag) homePocketTag.innerText = `aroma: ${randomPocket.desc.substring(0,35)}`;
+    }
+
+    function getAIResponse(question) {
+        if (!question || question.trim() === "") return null;
+        const q = question.toLowerCase();
+        
+        if (q.includes("tidur") || q.includes("insomnia") || q.includes("tidak bisa tidur")) {
+            return { tea: "Deep Rest, Calm Mind", pocket: "Sleep Pocket", tips: "Hindari layar 1 jam sebelum tidur, buat kamar gelap, minum teh hangat", note: "Konsistensi adalah kunci tidur berkualitas." };
+        }
+        if (q.includes("overthinking") || q.includes("cemas") || q.includes("khawatir")) {
+            return { tea: "Calm Mind, Serenity Tea", pocket: "Serenity Pocket", tips: "Tulis jurnal, meditasi 5 menit, hirup aroma lavender", note: "Jurnal membantu meletakkan pikiran." };
+        }
+        if (q.includes("stres") || q.includes("tekanan")) {
+            return { tea: "Bloom Balance", pocket: "Stress Relief Pocket", tips: "Nafas dalam 4-7-8, jalan santai 15 menit", note: "Jeda kecil sangat berarti." };
+        }
+        if (q.includes("fokus") || q.includes("konsentrasi") || q.includes("belajar")) {
+            return { tea: "Refresh Focus", pocket: "Focus Pocket", tips: "Teknik Pomodoro, hindari multitasking, ruangan terang", note: "Fokus bisa dilatih perlahan." };
+        }
+        if (q.includes("lelah") || q.includes("capek")) {
+            return { tea: "Fresh Mood", pocket: "Recharge Pocket", tips: "Power nap 20 menit, peregangan, minum air putih", note: "Istirahat sejenak sangat penting." };
+        }
+        if (q.includes("scrolling") || q.includes("hp") || q.includes("layar")) {
+            return { tea: "Serenity Tea", pocket: "Sleep Pocket", tips: "Aktifkan mode malam, no gadget di kamar tidur", note: "Layar menghambat hormon melatonin." };
+        }
+        if (q.includes("berapa jam tidur")) {
+            return { tea: "Deep Rest", pocket: "Sleep Pocket", tips: "Dewasa 7-9 jam, remaja 8-10 jam", note: "Kualitas tidur > kuantitas." };
+        }
+        
+        return { tea: "Calm Mind", pocket: "Serenity Pocket", tips: "Tarik napas dalam, minum air, jalan sebentar", note: "Kamu berhak untuk beristirahat." };
+    }
+
+    function displayAI() {
+        const input = document.getElementById('askInput');
+        const answerDiv = document.getElementById('aiAnswer');
+        const question = input ? input.value.trim() : "";
+        
+        if (!question) {
+            answerDiv.innerHTML = "Silakan tulis pertanyaan atau pilih emosi di atas.";
+            return;
+        }
+        
+        const res = getAIResponse(question);
+        if (res) {
+            answerDiv.innerHTML = `
+                <div class="response-section"><strong>📋 Keluhan:</strong> "${question.substring(0,80)}"</div>
+                <div class="response-section"><strong>🍵 Teh:</strong> ${res.tea}</div>
+                <div class="response-section"><strong>🌸 Calming Pocket:</strong> ${res.pocket}</div>
+                <div class="response-section"><strong>💡 Tips:</strong> ${res.tips}</div>
+                <div class="response-section" style="color:#8C6A4F;">✨ ${res.note}</div>
+            `;
+        }
+    }
+
+    function setupFeelings() {
+        const feelings = ["Tidak bisa tidur", "Overthinking", "Stres", "Sulit fokus", "Lelah", "Scrolling berjam-jam"];
+        const container = document.getElementById('feelingContainer');
+        if (!container) return;
+        
+        container.innerHTML = feelings.map(f => `<button class="feeling-btn" data-feeling="${f}">${f}</button>`).join('');
+        
+        document.querySelectorAll('.feeling-btn').forEach(btn => {
+            btn.onclick = () => {
+                const input = document.getElementById('askInput');
+                if (input) input.value = btn.getAttribute('data-feeling');
+                displayAI();
+            };
+        });
+    }
+
+    function setupNavigation() {
+        const btns = document.querySelectorAll('.nav-link');
+        const pages = {
+            home: document.getElementById('page-home'),
+            tea: document.getElementById('page-tea'),
+            pocket: document.getElementById('page-pocket'),
+            tips: document.getElementById('page-tips'),
+            ask: document.getElementById('page-ask')
+        };
+        
+        btns.forEach(btn => {
+            btn.onclick = () => {
+                const pageName = btn.getAttribute('data-page');
+                Object.values(pages).forEach(page => {
+                    if (page) page.classList.remove('show');
+                });
+                if (pages[pageName]) pages[pageName].classList.add('show');
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                if (pageName === 'tea') renderTea();
+                if (pageName === 'pocket') renderPocket();
+                if (pageName === 'tips') renderTips();
+                if (pageName === 'home') updateHomeRandom();
+                
+                window.scrollTo(0, 0);
+            };
+        });
+    }
+
+    renderTea();
+    renderPocket();
+    renderTips();
+    updateHomeRandom();
+    setupFeelings();
+    setupNavigation();
+    
+    const askBtn = document.getElementById('askBtn');
+    if (askBtn) askBtn.onclick = displayAI;
+    
+    const askInput = document.getElementById('askInput');
+    if (askInput) {
+        askInput.onkeypress = (e) => {
+            if (e.key === 'Enter') displayAI();
+        };
+    }
+</script>
+</body>
+</html>
