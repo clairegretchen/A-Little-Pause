@@ -1,0 +1,315 @@
+import streamlit as st
+import pandas as pd
+import random
+
+# ---------- PAGE CONFIG ----------
+st.set_page_config(
+    page_title="A Little Pause",
+    page_icon="🌙",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+# ---------- CUSTOM CSS (soft colors) ----------
+st.markdown("""
+<style>
+    /* main background soft */
+    .stApp {
+        background-color: #F7F3EF;
+    }
+    /* card styling */
+    .css-1r6slb0, .stMarkdown {
+        background-color: transparent;
+    }
+    div[data-testid="column"] {
+        background-color: #FFFFFF;
+        border-radius: 24px;
+        padding: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        border: 1px solid #EFE4DB;
+    }
+    h1, h2, h3 {
+        color: #5C3D2E;
+        font-weight: 500;
+    }
+    .stButton button {
+        background-color: #DBC8BA;
+        color: #4A3426;
+        border-radius: 40px;
+        border: none;
+        padding: 0.3rem 1rem;
+        font-weight: 500;
+        transition: 0.2s;
+    }
+    .stButton button:hover {
+        background-color: #C9B09E;
+        color: #2F241C;
+    }
+    /* sidebar hide default */
+    section[data-testid="stSidebar"] {
+        background-color: #F7F3EF;
+    }
+    /* metric atau teks */
+    .stTextInput > div > div > input {
+        background-color: #FFFFFF;
+        border-radius: 50px;
+        border: 1px solid #E2D4CB;
+    }
+    .stSelectbox > div > div {
+        background-color: #FFFFFF;
+    }
+    hr {
+        margin: 0.5rem 0;
+        border-color: #E6D9D0;
+    }
+    .music-custom {
+        background-color: #FFFFFFCC;
+        border-radius: 20px;
+        padding: 0.7rem;
+        margin-top: 0.5rem;
+    }
+    .ai-box {
+        background-color: #FDF9F5;
+        border-left: 4px solid #C7A48B;
+        border-radius: 20px;
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    .tip-item {
+        background: #FFFFFF;
+        border-radius: 40px;
+        padding: 0.4rem 1rem;
+        display: inline-block;
+        margin: 0.3rem;
+        font-size: 0.85rem;
+        border: 1px solid #E8DDD4;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ---------- DATA MENU (Tea & Pocket) ----------
+teas = [
+    {"name": "Calm Mind", "ingredients": "Chamomile + Lavender", "desc": "Gentle floral aroma with warm soothing sensation. Chamomile brings comfort, lavender calms the mind. Ideal after a tiring day.", "suitable": "overthinking, mild anxiety, pre-sleep relaxation"},
+    {"name": "Deep Rest", "ingredients": "Chamomile + Rosella", "desc": "Soft floral with a hint of fresh sourness. Helps release tension after a busy day.", "suitable": "irregular sleep patterns, mental fatigue, night relaxation"},
+    {"name": "Fresh Mood", "ingredients": "Peppermint + Rosella", "desc": "Natural cool freshness that uplifts mood and energy.", "suitable": "bad mood, boredom, mental exhaustion"},
+    {"name": "Blue Serenity", "ingredients": "Butterfly Pea + Chamomile", "desc": "Light, naturally blue colored tea that calms and soothes.", "suitable": "overthinking, anxiety, maintaining focus stability"},
+    {"name": "Bloom Balance", "ingredients": "Rose + Rosella", "desc": "Floral aroma with a fresh tangy taste. Brings comfort and stability.", "suitable": "stress, emotional instability, self-care moments"},
+    {"name": "Refresh Focus", "ingredients": "Peppermint + Butterfly Pea", "desc": "Refreshing mint sensation to boost concentration.", "suitable": "lack of focus, sleepiness while studying, mild fatigue"}
+]
+
+pockets = [
+    {"name": "Sleep Pocket", "ingredients": "Lavender + Chamomile", "desc": "Soft floral scent that helps body and mind relax before sleep.", "suitable": "difficulty sleeping, overthinking, nighttime restlessness"},
+    {"name": "Stress Relief Pocket", "ingredients": "Lavender + Rose", "desc": "Calming floral aroma to ease academic or work pressure.", "suitable": "stress, academic pressure, emotional exhaustion"},
+    {"name": "Focus Pocket", "ingredients": "Peppermint + Butterfly Pea", "desc": "Fresh light scent that enhances alertness without being overwhelming.", "suitable": "studying, working on tasks, improving concentration"},
+    {"name": "Mood Booster Pocket", "ingredients": "Rose + Rosella", "desc": "Sweet floral freshness that creates a positive atmosphere.", "suitable": "low mood, boredom, self-care needs"},
+    {"name": "Recharge Pocket", "ingredients": "Peppermint + Lavender", "desc": "Balanced fresh & calming scent for post-activity recovery.", "suitable": "physical fatigue, mental tiredness, mild stress"},
+    {"name": "Serenity Pocket", "ingredients": "Butterfly Pea + Lavender", "desc": "Gentle, non-intrusive aroma for peace and comfort.", "suitable": "anxiety, restlessness, daily relaxation"}
+]
+
+# ---------- SIDEBAR NAVIGATION (Page Switcher) ----------
+st.sidebar.markdown("### Menu")
+page = st.sidebar.radio(
+    "Navigate",
+    ["Home", "Tea Collection", "Calming Pocket", "Sleep Tips", "Ask AI"],
+    label_visibility="collapsed"
+)
+st.sidebar.markdown("---")
+st.sidebar.caption("A Little Pause • soft companion for rest & focus")
+
+# ---------- PAGE 1: HOME ----------
+if page == "Home":
+    st.markdown("<h1 style='font-size:2.8rem;'>🌙 A Little Pause</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#6C4F3A; margin-bottom:1.8rem;'>a gentle space for deep sleep, calm focus, and peaceful mind</p>", unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("#### 🍵 Today's Tea Suggestion")
+        random_tea = random.choice(teas)
+        st.markdown(f"**{random_tea['name']}**  \n{random_tea['ingredients']}  \n*{random_tea['desc'][:100]}...*")
+        st.caption(f"🌿 suitable for: {random_tea['suitable']}")
+    with col2:
+        st.markdown("#### 🌸 Today's Pocket Scent")
+        random_pocket = random.choice(pockets)
+        st.markdown(f"**{random_pocket['name']}**  \n{random_pocket['ingredients']}  \n*{random_pocket['desc'][:100]}...*")
+        st.caption(f"🌸 suitable for: {random_pocket['suitable']}")
+    
+    st.markdown("---")
+    st.markdown("### 🎵 Calming Sounds")
+    col_m1, col_m2 = st.columns(2)
+    with col_m1:
+        st.markdown("**Sleep & Deep Relax**")
+        st.audio("https://www.orangefreesounds.com/wp-content/uploads/2023/01/Relaxing-piano-soft-sleep-music.mp3", format="audio/mp3", loop=True)
+    with col_m2:
+        st.markdown("**Focus & Clarity**")
+        st.audio("https://www.orangefreesounds.com/wp-content/uploads/2022/11/Deep-focus-piano-music-for-studying.mp3", format="audio/mp3", loop=True)
+    st.caption("gentle piano & ambient — made for restful sleep and concentration")
+
+# ---------- PAGE 2: TEA COLLECTION ----------
+elif page == "Tea Collection":
+    st.markdown("<h2 style='margin-bottom:1rem;'>🍵 Herbal Tea Collection</h2>", unsafe_allow_html=True)
+    cols = st.columns(2)
+    for idx, tea in enumerate(teas):
+        with cols[idx % 2]:
+            st.markdown(f"""
+            <div style="background:#FFFFFF; border-radius:24px; padding:1.2rem; margin-bottom:1rem; border:1px solid #EFE4DB;">
+                <h3 style="margin:0 0 0.2rem 0;">{tea['name']}</h3>
+                <p style="color:#B2805F; font-size:0.9rem;"><i>{tea['ingredients']}</i></p>
+                <p style="font-size:0.9rem;">{tea['desc']}</p>
+                <p style="font-size:0.8rem; background:#F7F0EA; display:inline-block; padding:0.2rem 1rem; border-radius:30px;">✨ suitable: {tea['suitable']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+# ---------- PAGE 3: CALMING POCKET ----------
+elif page == "Calming Pocket":
+    st.markdown("<h2 style='margin-bottom:1rem;'>🌸 Calming Pocket Collection</h2>", unsafe_allow_html=True)
+    cols = st.columns(2)
+    for idx, pocket in enumerate(pockets):
+        with cols[idx % 2]:
+            st.markdown(f"""
+            <div style="background:#FFFFFF; border-radius:24px; padding:1.2rem; margin-bottom:1rem; border:1px solid #EFE4DB;">
+                <h3 style="margin:0 0 0.2rem 0;">{pocket['name']}</h3>
+                <p style="color:#B2805F; font-size:0.9rem;"><i>{pocket['ingredients']}</i></p>
+                <p style="font-size:0.9rem;">{pocket['desc']}</p>
+                <p style="font-size:0.8rem; background:#F7F0EA; display:inline-block; padding:0.2rem 1rem; border-radius:30px;">🌸 suitable: {pocket['suitable']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+# ---------- PAGE 4: SLEEP TIPS ----------
+elif page == "Sleep Tips":
+    st.markdown("<h2>💡 Sleep & Lifestyle Tips</h2>", unsafe_allow_html=True)
+    st.markdown("Simple habits to help you fall asleep faster and wake up refreshed.")
+    
+    tips = [
+        "Keep a consistent sleep schedule (even on weekends)",
+        "Avoid screens 60 minutes before bedtime",
+        "No caffeine after 2 PM",
+        "Practice deep breathing or meditation for 5 mins",
+        "Keep your bedroom dark, cool, and quiet",
+        "Get morning sunlight to regulate circadian rhythm",
+        "Use calming scents like lavender or chamomile",
+        "Write down racing thoughts before sleeping"
+    ]
+    
+    cols_tips = st.columns(3)
+    for i, tip in enumerate(tips):
+        with cols_tips[i % 3]:
+            st.markdown(f"<div class='tip-item'>• {tip}</div>", unsafe_allow_html=True)
+    
+    st.markdown("---")
+    st.markdown("### 🌙 Evening Ritual Suggestion")
+    st.info("1. Drink a warm cup of **Deep Rest** tea  \n2. Inhale **Sleep Pocket** scent  \n3. Listen to the sleep music  \n4. Read a physical book for 15 minutes", icon="✨")
+
+# ---------- PAGE 5: ASK AI (INTERACTIVE, ENGLISH, SIMPLE RECOMMENDATION) ----------
+elif page == "Ask AI":
+    st.markdown("<h2>✨ Ask AI · Find Your Blend</h2>", unsafe_allow_html=True)
+    st.markdown("Tell me how you feel — tired, overthinking, can't focus, or anything else. I'll recommend tea & calming pocket for you.")
+    
+    # predefined feeling chips
+    feeling_options = ["😴 Can't sleep", "😵‍💫 Overthinking", "😫 Stressed", "📚 Lack of focus", "🔋 Exhausted", "😊 Need relaxation"]
+    selected_feeling = st.pills("How are you feeling today?", feeling_options, selection_mode="single")
+    
+    # free text input
+    user_query = st.text_input("Or describe in your own words (English):", placeholder="e.g. I scroll my phone for hours but still can't sleep... I feel so tired during study")
+    
+    # ----- AI logic: mapping keywords to recommendations -----
+    def get_ai_recommendation(query_text):
+        if not query_text:
+            return None, None, None
+        q = query_text.lower()
+        tea_rec = []
+        pocket_rec = []
+        extra_note = ""
+        
+        # sleep related
+        if any(word in q for word in ["sleep", "can't sleep", "insomnia", "tired but awake", "restless night"]):
+            tea_rec = ["Deep Rest", "Calm Mind"]
+            pocket_rec = ["Sleep Pocket", "Serenity Pocket"]
+            extra_note = "Try to avoid blue light 1h before bed. Deep Rest tea + Sleep Pocket can guide you into restful sleep."
+        # overthinking / anxiety
+        elif any(word in q for word in ["overthinking", "anxious", "worry", "racing thoughts", "mind won't stop"]):
+            tea_rec = ["Calm Mind", "Blue Serenity"]
+            pocket_rec = ["Serenity Pocket", "Sleep Pocket"]
+            extra_note = "Journaling before bed and sipping Calm Mind tea helps quiet mental chatter."
+        # stress / emotional
+        elif any(word in q for word in ["stress", "pressure", "emotional", "tense"]):
+            tea_rec = ["Bloom Balance", "Calm Mind"]
+            pocket_rec = ["Stress Relief Pocket", "Recharge Pocket"]
+            extra_note = "Rose & chamomile bring emotional comfort. Take 5 deep breaths with Stress Relief Pocket."
+        # focus / concentration
+        elif any(word in q for word in ["focus", "concentrate", "study", "can't focus", "distracted", "attention"]):
+            tea_rec = ["Refresh Focus", "Blue Serenity"]
+            pocket_rec = ["Focus Pocket", "Mood Booster Pocket"]
+            extra_note = "Peppermint tea sharpens alertness. Use Focus Pocket while working in a quiet space."
+        # fatigue, exhaustion
+        elif any(word in q for word in ["tired", "fatigue", "exhausted", "no energy", "sleepy but drained"]):
+            tea_rec = ["Fresh Mood", "Refresh Focus"]
+            pocket_rec = ["Recharge Pocket", "Mood Booster Pocket"]
+            extra_note = "Short nap (20min) + peppermint infusion can recharge your mind."
+        # scrolling / screen time
+        elif any(word in q for word in ["scroll", "phone", "screen", "hours", "blue light"]):
+            tea_rec = ["Blue Serenity", "Deep Rest"]
+            pocket_rec = ["Sleep Pocket", "Serenity Pocket"]
+            extra_note = "Excessive screen time suppresses melatonin. Stop scrolling 1 hour before bed and try Blue Serenity tea."
+        # asking about sleep hours
+        elif "how many hours" in q or "sleep hour" in q or "ideal sleep" in q:
+            tea_rec = ["Deep Rest", "Calm Mind"]
+            pocket_rec = ["Sleep Pocket"]
+            extra_note = "Adults need 7–9 hours of quality sleep. Consistency matters more than catching up on weekends."
+        else:
+            # default gentle recommendation
+            tea_rec = ["Calm Mind", "Blue Serenity"]
+            pocket_rec = ["Serenity Pocket", "Mood Booster Pocket"]
+            extra_note = "A gentle tea and calming scent can bring balance. Try the Calm Mind tea and Serenity Pocket."
+        
+        tea_rec = list(dict.fromkeys(tea_rec))
+        pocket_rec = list(dict.fromkeys(pocket_rec))
+        return tea_rec, pocket_rec, extra_note
+    
+    # process input from pills or text
+    query_to_use = ""
+    if selected_feeling:
+        # map emoji feeling to clean english
+        feeling_map = {
+            "😴 Can't sleep": "I can't sleep at night",
+            "😵‍💫 Overthinking": "I keep overthinking",
+            "😫 Stressed": "I feel stressed and tense",
+            "📚 Lack of focus": "I struggle to focus while studying",
+            "🔋 Exhausted": "I feel exhausted and drained",
+            "😊 Need relaxation": "I need deep relaxation"
+        }
+        query_to_use = feeling_map.get(selected_feeling, selected_feeling)
+    
+    if user_query:
+        query_to_use = user_query
+    
+    if query_to_use:
+        teas_rec, pockets_rec, note = get_ai_recommendation(query_to_use)
+        if teas_rec and pockets_rec:
+            st.markdown("---")
+            st.markdown("### ✨ AI Recommendation for you")
+            col_rec1, col_rec2 = st.columns(2)
+            with col_rec1:
+                st.markdown("🍵 **Recommended Tea(s)**")
+                for t in teas_rec:
+                    st.markdown(f"- {t}")
+            with col_rec2:
+                st.markdown("🌸 **Recommended Calming Pocket(s)**")
+                for p in pockets_rec:
+                    st.markdown(f"- {p}")
+            if note:
+                st.info(note, icon="💡")
+        else:
+            st.warning("Please describe your feeling or select an option above.")
+    else:
+        st.markdown("<div class='ai-box' style='margin-top:1rem;'>💬 Select a mood or type your feeling — I will suggest the perfect tea and calming pocket for sleep & focus.</div>", unsafe_allow_html=True)
+    
+    # extra quick Q&A based on common scrolling and sleep hours
+    with st.expander("❓ Common questions you can ask AI"):
+        st.markdown("- *I have been scrolling for 3 hours, why can't I sleep?*")
+        st.markdown("- *How many hours of sleep do I need daily?*")
+        st.markdown("- *I feel mentally exhausted but can't relax*")
+        st.markdown("- *Why do I wake up tired even after 8 hours?*")
+
+# ---------- FOOTER (minor) ----------
+st.markdown("---")
+st.markdown("<p style='text-align:center; font-size:0.7rem; color:#A5836A;'>A Little Pause — soft companion for rest & clarity</p>", unsafe_allow_html=True)
